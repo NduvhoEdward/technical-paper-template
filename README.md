@@ -1,4 +1,4 @@
-# witseiepaper — Wits EIE LaTeX template
+# witseiepaper: the Wits EIE LaTeX template
 
 The LaTeX house style of the School of Electrical & Information Engineering,
 University of the Witwatersrand. Originally written by **Ken J. Nixon** (2005)
@@ -14,7 +14,7 @@ than living as loose files in a folder.
 | `witseiepaper.cls` | The document class. This is the template. |
 | `witseie.bst` | EIE bibliography style. |
 | `KJN.sty` | Nixon's macro package (`\tabref`, `\figref`, and friends). |
-| `witseie-paper-2005.tex` | The original sample paper — doubles as the style guide. |
+| `witseie-paper-2005.tex` | The original sample paper, which doubles as the style guide. |
 | `witseie-paper-2005.pdf` | Reference render of the above. |
 | `sample.bib` | Example bibliography. |
 | `example.eps` / `example.pdf` | Example figure, in both formats. |
@@ -87,8 +87,8 @@ three are fixed here; the rendered output is unchanged (verified: same 4 pages,
 same A4 geometry, same captions).
 
 1. **Three-argument `\@makecaption` (the serious one).** The class passed the
-   float type to `\@makecaption` as a third argument. Standard LaTeX — and so
-   hyperref, which `KJN.sty` loads — assumes the two-argument signature. Once
+   float type to `\@makecaption` as a third argument. Standard LaTeX, and so
+   hyperref, which `KJN.sty` loads, assumes the two-argument signature. Once
    hyperref rewired `\@caption`, it called `\@makecaption` with two arguments,
    `#3` absorbed whatever token followed, and the `\ifx` testing it was left
    dangling. Every document built from this template since 2005 has emitted
@@ -114,6 +114,6 @@ The `witseiepaper` class, `witseie.bst` and `KJN.sty` were written by
 Engineering, University of the Witwatersrand. They are distributed to students
 from the school website.
 
-This repository **redistributes** that material for convenience — it does not
+This repository **redistributes** that material for convenience. It does not
 claim authorship of it. If the school would rather it not be mirrored publicly,
 it will be taken down on request.
