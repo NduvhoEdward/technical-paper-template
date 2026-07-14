@@ -82,7 +82,11 @@ Worth knowing before you fight the class:
 
 ## Provenance
 
-Template © School of Electrical & Information Engineering, University of the
-Witwatersrand. Distributed to students via the school website. This repository
-is a personal archival copy — keep it private unless the school has said
-otherwise.
+The `witseiepaper` class, `witseie.bst` and `KJN.sty` were written by
+**Ken J. Nixon** (2005) and are © School of Electrical & Information
+Engineering, University of the Witwatersrand. They are distributed to students
+from the school website.
+
+This repository **redistributes** that material for convenience — it does not
+claim authorship of it. If the school would rather it not be mirrored publicly,
+it will be taken down on request.
