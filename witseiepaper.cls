@@ -43,8 +43,19 @@
 %%%  }
 %%% ===========================================================================
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{witseiepaper}[2005/10/14 v1.2.1 Wits EIE paper style (Nixon)]
+
 \typeout{Document Style `witseiepaper.cls' <2005/10/14>}
-\typeout{Rev. 1.2.0}
+\typeout{Rev. 1.2.1}
+
+%% The class predates LaTeX2e and never declared a paper size, leaving
+%% \paperheight/\paperwidth at 0pt. pdfTeX still emitted A4 by default, but
+%% hyperref computes link destinations against the stated page height and
+%% warned that it was invalid. State A4 explicitly -- this is the size the
+%% School specifies and the size the class was always laid out for.
+\setlength{\paperwidth}{210mm}
+\setlength{\paperheight}{297mm}
 
 \usepackage{rawfonts} %!PN
 \usepackage{oldlfont} %!PN
@@ -351,18 +362,31 @@
 
 %% redefine CAPTION
 
+%% The original passed the float type to \@makecaption as a THIRD argument,
+%% giving it the signature \@makecaption#1#2#3. Standard LaTeX -- and
+%% therefore hyperref, which KJN.sty loads -- assumes the two-argument
+%% \@makecaption#1#2. Once hyperref rewired \@caption, it called \@makecaption
+%% with two arguments, so #3 silently absorbed whatever token came next and
+%% the \ifx that tested it was left dangling. That is the true source of
+%%     (\end occurred when \ifx on line NNN was incomplete)
+%% which this template has emitted on every document since 2005.
+%%
+%% Fixed by using LaTeX's own mechanism: \@captype is already set to `figure'
+%% or `table' inside any float, so the type needs no extra argument. Both
+%% macros now carry their standard signatures and hyperref is happy.
 \long\def\@caption#1[#2]#3{\par\addcontentsline{\csname ext@#1\endcsname}{#1}{%
    \protect\numberline{\csname the#1\endcsname}{\ignorespaces #2}}
    \begingroup \@parboxrestore \normalsize
-     \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}{#1}\par
+     \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
    \endgroup}
 
 \def\tablestring{table}
 \def\figurestring{figure}
 
 \newlength{\captionindent}
-\long\def\@makecaption#1#2#3{
-\ifx\figurestring#3
+\long\def\@makecaption#1#2{%
+\edef\wits@captiontype{\@captype}%
+\ifx\wits@captiontype\figurestring
     \vskip 5pt
     \setbox\@tempboxa\hbox{#1~:~#2}
     \ifdim \wd\@tempboxa >\hsize

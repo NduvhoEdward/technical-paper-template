@@ -14,30 +14,33 @@
 %------------------------------------------------------------------------------
 %                       Switch to detect LaTeX or PDFTeX
 %------------------------------------------------------------------------------
-\usepackage{ifpdf}      
-%---------------------------------------------------------------------
-%                       Options for PDFTeX
+\RequirePackage{ifpdf}
+%------------------------------------------------------------------------------
+%   Graphics and hyperref.
+%
+%   The original loaded graphicx and hyperref INSIDE \ifpdf...\else...\fi.
+%   Loading a package inside a conditional is a known TeX trap: the package's
+%   own \fi tokens are scanned while the outer conditional is still open, and
+%   the outer \ifx/\if is left dangling. That is what produced
+%       (\end occurred when \ifx on line NNN was incomplete)
+%   on every document built with this template since 2005. Harmless until it
+%   is not -- a dangling conditional will swallow the next \fi it meets.
+%
+%   Correct idiom: use the conditional only to SELECT options, then load the
+%   packages unconditionally, outside it.
 %------------------------------------------------------------------------------
 \ifpdf
-    \RequirePackage[pdftex,final]{graphicx}
-%    \graphicspath{{figures/pdf/}}                           % graphics files are in the pdf directory
-%    \RequirePackage[pdftex]{hyperref}                       % without back-refs in the bibliography section
-    %\RequirePackage[pdftex,a4paper,pagebackref]{hyperref}  % with back-references
-% for nifty things for online PDF documents
-\usepackage[a4paper,colorlinks,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
-    %\pdfcompresslevel=9 included in pdftex.cfg
-    %\DeclareGraphicsExtensions{.png,.pdf,.jpg,.jpeg}  %graphicx with pdftex automatically searches for these files
+    \PassOptionsToPackage{pdftex,final}{graphicx}
 \else
-%------------------------------------------------------------------------------
-%              Options for PDF from DVI or PDF from PS (via DVI)
-%------------------------------------------------------------------------------
-    \RequirePackage[final]{graphicx}
-%    \graphicspath{{figures/eps/}}           % graphics files are in the eps directory
-                                            % Comment the options that are not to be used
-    \RequirePackage[dvipdfm]{hyperref}      % for LaTeX -> DVIPDFM
-    %\RequirePackage[dvips]{hyperref}       % for LaTeX -> DVIPS -> PS2PDF. Does not support linebreaks in URLs!
-    %\RequirePackage{hyperref}
-    %\RequirePackage[pagebackref]{hyperref} % with back-references
+    \PassOptionsToPackage{final}{graphicx}
+    \PassOptionsToPackage{dvipdfm}{hyperref}   % LaTeX -> DVIPDFM
+\fi
+
+\RequirePackage{graphicx}
+\RequirePackage[colorlinks,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+
+% pdfTeX finds .png/.pdf/.jpg by itself; the DVI route needs to be told.
+\ifpdf\else
     \DeclareGraphicsExtensions{.eps,.bmp,.jpg,.mps,.png}
 \fi
 

@@ -80,6 +80,33 @@ Worth knowing before you fight the class:
 - Abstract 50–200 words; four to six keywords, alphabetical.
 - The project paper is capped at **6 pages**.
 
+## Fixes applied to the 2005 original
+
+The template as distributed compiles, but carries three latent defects. All
+three are fixed here; the rendered output is unchanged (verified: same 4 pages,
+same A4 geometry, same captions).
+
+1. **Three-argument `\@makecaption` (the serious one).** The class passed the
+   float type to `\@makecaption` as a third argument. Standard LaTeX — and so
+   hyperref, which `KJN.sty` loads — assumes the two-argument signature. Once
+   hyperref rewired `\@caption`, it called `\@makecaption` with two arguments,
+   `#3` absorbed whatever token followed, and the `\ifx` testing it was left
+   dangling. Every document built from this template since 2005 has emitted
+   `(\end occurred when \ifx on line NNN was incomplete)` because of it. A
+   dangling conditional is a live hazard: it will swallow the next `\fi` it
+   meets. Now uses LaTeX's own `\@captype`, with standard signatures throughout.
+
+2. **Packages loaded inside a conditional.** `KJN.sty` loaded `graphicx` and
+   `hyperref` inside `\ifpdf ... \else ... \fi`. The conditional now only
+   selects options; the packages load outside it.
+
+3. **No paper size.** The class never set `\paperwidth`/`\paperheight`, leaving
+   them at 0pt, so hyperref computed link destinations against a zero-height
+   page. A4 is now stated explicitly.
+
+Verified with MiKTeX 25.12 / pdfTeX 4.23: `pdflatex → bibtex → pdflatex ×2`
+completes with **zero** errors and zero warnings.
+
 ## Provenance
 
 The `witseiepaper` class, `witseie.bst` and `KJN.sty` were written by
