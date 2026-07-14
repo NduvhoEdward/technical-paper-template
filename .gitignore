@@ -1,0 +1,23 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+
+# Keep witseie-paper-2005.pdf (the reference render) but ignore other build PDFs
+# by hand if they appear — add them here as needed.
+
+# OS cruft
+Thumbs.db
+Desktop.ini
+.DS_Store
